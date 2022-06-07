@@ -7,25 +7,34 @@ import {notify} from "../utils/toast";
 import {Video} from "../types/video";
 import {useAuth} from "../hooks/useAuth";
 import {db} from "../config/firebase";
+import {useCollection} from "../hooks/useCollection";
 
 const ShareVideo: FC = () => {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
     const {user} = useAuth()
+    const {documents: videos} = useCollection('videos')
 
     const shareVideo = async () => {
-        const id = getId(url)
+        setLoading(true)
+        const id = getId(url?.trim())
 
         if (!id) notify('URL is not valid!')
         if (id) {
+            const embedUrl = `https://www.youtube.com/embed/${id}`
+            if (videos.some(video => video.url === embedUrl)) {
+                setLoading(false)
+                return notify('This video has been shared')
+            }
+
             const videoInfo = await getVideoInfoFromUrl(id)
             const data = videoInfo.data.items[0].snippet || {}
 
             if (data) {
                 const newShareVideo: Video = {
-                    title: data?.title || '',
-                    description: data?.description || '',
-                    url: `https://www.youtube.com/embed/${id}`,
+                    title: data?.title?.length > 80 ? data?.title?.slice(0, 80) : data?.title || '',
+                    description: data?.description?.length > 250 ? data?.description?.slice(0, 250) : data?.description || '',
+                    url: embedUrl,
                     sharedBy: user?.email || '',
                     upVote: 0,
                     downVote: 0,
@@ -34,8 +43,11 @@ const ShareVideo: FC = () => {
                 try {
                     const videoRef = collection(db, 'videos')
                     await addDoc(videoRef, newShareVideo)
+                    setLoading(false)
                     notify('Success, visit homepage to see all shared videos!', "success")
                 } catch (e) {
+                    setLoading(false)
+                    console.log(e)
                     notify('Fail to share video, please try again!')
                 }
             }
