@@ -11,6 +11,7 @@ function App() {
             <Header/>
             <Container maxW="1024px">
                 <Video/>
+                <Video/>
             </Container>
         </Container>
     )
