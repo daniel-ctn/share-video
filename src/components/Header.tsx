@@ -34,18 +34,18 @@ const Header: FC = () => {
                     <>
                         <Text>Hello, {user.email}</Text>
                         <Button colorScheme='teal' onClick={() => navigate('/share')}>Share a video</Button>
-                        <Button colorScheme='orange' variant='outline' onClick={logOut}>
+                        <Button colorScheme='orange' variant='outline' onClick={logOut} disabled={loading}>
                             {loading ? <Spinner /> : 'Sign out'}
                         </Button>
                     </>
                 )}
                 {!user && (
                     <>
-                        <Input placeholder='Email' w="30%" disabled={loading} value={email}
+                        <Input placeholder='Email' type="email" w="30%" disabled={loading} value={email}
                                onChange={(e) => setEmail(e.target.value)}/>
                         <Input placeholder='Password' type="password" w="30%" disabled={loading} value={password}
                                onChange={(e) => setPassword(e.target.value)}/>
-                        <Button colorScheme='teal' onClick={signUpOrSignIn}>
+                        <Button colorScheme='teal' onClick={signUpOrSignIn} disabled={loading}>
                             {loading ? <Spinner /> : 'Login / Register'}
                         </Button>
                     </>
