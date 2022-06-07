@@ -1,33 +1,33 @@
 import {FC} from 'react'
 import { Flex, Heading, HStack, Text, VStack} from "@chakra-ui/react";
 import {FaThumbsDown, FaThumbsUp} from "react-icons/fa";
+import {FVideo} from "../types/video";
 
-const Video: FC = () => {
+const Video: FC<{video: FVideo}> = ({video}) => {
+    const {url, title, sharedBy, upVote, downVote, description} = video
+
     return (
         <Flex maxW="1024px" py={10} gap={6}>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/nK1r_9hPWuI"
+            <iframe width="560" height="315" src={url}
                     title="YouTube video player" frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen/>
             <VStack align="start" w="50%" spacing="12px">
-                <Heading as="h3" size="lg" color='tomato'>Movie Title</Heading>
-                <Heading as="h5" fontSize='sm' fontWeight={500}>Shared by someone@gmail.com</Heading>
+                <Heading as="h3" size="lg" color='tomato'>{title}</Heading>
+                <Heading as="h5" fontSize='sm' fontWeight={500}>Shared by {sharedBy}</Heading>
                 <HStack gap={2}>
                     <Flex alignItems="center" gap={1}>
-                        <Text>89</Text>
+                        <Text>{upVote}</Text>
                         <FaThumbsUp size="0.9rem" cursor="pointer"/>
                     </Flex>
                     <Flex alignItems="center" gap={1}>
-                        <Text>12</Text>
+                        <Text>{downVote}</Text>
                         <FaThumbsDown size="0.9rem" cursor="pointer"/>
                     </Flex>
                 </HStack>
                 <Text fontSize='sm'>
                     Description: <br/>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquam amet
-                    aperiam aspernatur at aut cum deleniti, deserunt dicta ducimus enim facilis inventore iste iure
-                    maxime neque nesciunt nihil officia quaerat quod ratione recusandae reiciendis repellat sapiente,
-                    tempora voluptatem voluptatum.
+                    {description}
                 </Text>
             </VStack>
         </Flex>
