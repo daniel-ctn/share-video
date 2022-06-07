@@ -22,24 +22,19 @@ export const useAuth = () => {
         fetchSignInMethodsForEmail(auth, email).then(res => {
             if (res.length === 0) {
                 return createUserWithEmailAndPassword(auth, email, password).then(res => {
-                    console.log({res})
                     setLoading(false)
                 }).catch(err => {
-                    console.log({err})
                     setLoading(false)
                 })
             }
             if (res.length > 0) {
                 return signInWithEmailAndPassword(auth, email, password).then(res => {
-                    console.log({res})
                     setLoading(false)
                 }).catch(err => {
-                    console.log({err})
                     setLoading(false)
                 })
             }
         })
-
     }
 
     const signUserOut = () => {
@@ -47,19 +42,15 @@ export const useAuth = () => {
         setLoading(true)
 
         signOut(auth).then(res => {
-            console.log({res})
             setLoading(false)
         }).catch(err => {
-            console.log({err})
             setLoading(false)
         })
     }
 
     useEffect(() => {
         const listener = onAuthStateChanged(
-            auth,
-            async (user) => {
-                console.log({user})
+            auth, async (user) => {
                 setUser(user)
             },
             (error) => setError(error)

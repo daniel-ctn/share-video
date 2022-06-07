@@ -1,12 +1,15 @@
 import {FC, useState} from 'react'
 import {Box, Button, Container, Flex, Grid, Heading, Input, Spinner, Text} from "@chakra-ui/react";
+import {Link, useNavigate} from "react-router-dom";
 import {ImHome} from "react-icons/im";
+
 import {useAuth} from "../hooks/useAuth";
 
 const Header: FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const {user, loading, signUpOrSignInWithEmail, signUserOut} = useAuth()
+    const navigate = useNavigate()
 
     const signUpOrSignIn = () => {
         signUpOrSignInWithEmail(email, password)
@@ -23,14 +26,14 @@ const Header: FC = () => {
             <Flex alignItems="center">
                 <ImHome size="2rem" color="gray"/>
                 <Heading as='h1' size='xl' marginLeft={3} color="gray">
-                    Funny Movies
+                    <Link to='/'> Funny Movies</Link>
                 </Heading>
             </Flex>
             <Flex gap={3} alignItems="center" justifySelf="end">
                 {user && (
                     <>
                         <Text>Hello, {user.email}</Text>
-                        <Button colorScheme='teal'>Share a video</Button>
+                        <Button colorScheme='teal' onClick={() => navigate('/share')}>Share a video</Button>
                         <Button colorScheme='orange' variant='outline' onClick={logOut}>
                             {loading ? <Spinner /> : 'Sign out'}
                         </Button>
