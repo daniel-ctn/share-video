@@ -1,5 +1,5 @@
 import {FC, useState} from 'react'
-import {Box, Button, Container, Flex, Grid, Heading, Input, Spinner, Text} from "@chakra-ui/react";
+import {Button, Flex, Grid, Heading, Input, Spinner, Text} from "@chakra-ui/react";
 import {Link, useNavigate} from "react-router-dom";
 import {ImHome} from "react-icons/im";
 
