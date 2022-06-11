@@ -1,18 +1,19 @@
-import {FC, useState} from 'react'
+import {FC, useContext, useState} from 'react'
 import {addDoc, collection} from "firebase/firestore";
 import {Button, Container, Flex, Heading, HStack, Input, Spinner, Text} from "@chakra-ui/react";
 
 import {getId, getVideoInfoFromUrl} from '../utils/api';
 import {notify} from "../utils/toast";
 import {Video} from "../types/video";
-import {useAuth} from "../hooks/useAuth";
 import {db} from "../config/firebase";
 import {useCollection} from "../hooks/useCollection";
+import {AuthContext} from "../context/AuthContext";
 
 const ShareVideo: FC = () => {
     const [url, setUrl] = useState('');
     const [loading, setLoading] = useState(false);
-    const {user} = useAuth()
+
+    const {user} = useContext(AuthContext);
     const {documents: videos} = useCollection('videos')
 
     const shareVideo = async () => {
@@ -43,6 +44,7 @@ const ShareVideo: FC = () => {
                 try {
                     const videoRef = collection(db, 'videos')
                     await addDoc(videoRef, newShareVideo)
+                    setUrl('')
                     setLoading(false)
                     notify('Success, visit homepage to see all shared videos!', "success")
                 } catch (e) {
@@ -60,7 +62,7 @@ const ShareVideo: FC = () => {
                 <Heading as="h2" size="md" color="gray.500">Share a Youtube movie</Heading>
                 <HStack gap={2}>
                     <Text w="20%">Youtube URL:</Text>
-                    <Input placeholder='https://www.youtube.com/embed/nK1r_9hPWuI' value={url}
+                    <Input placeholder='eg: https://youtu.be/Mo4vesaut8g' value={url}
                            onChange={(e) => setUrl(e.target.value)}/>
                 </HStack>
                 <Button alignSelf="center" colorScheme='teal' w="40%" onClick={shareVideo} disabled={loading}>
