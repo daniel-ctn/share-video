@@ -59,9 +59,8 @@ export const useAuth = () => {
             (error) => setError(error)
         );
 
-        return () => {
-            listener();
-        };
+        return () => listener(); // unsubscribe listener
+
     }, [auth]);
 
     return {user, error, setError, loading, signUpOrSignInWithEmail, signUserOut}

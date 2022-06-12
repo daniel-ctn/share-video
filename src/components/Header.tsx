@@ -67,7 +67,7 @@ const Header: FC = () => {
 
 
     return (
-        <Grid templateColumns='repeat(2, 1fr)' gap={6} alignItems="center" p={4}>
+        <Grid h="100px" templateColumns='repeat(2, 1fr)' gap={6} alignItems="center" p={4}>
             <Flex alignItems="center">
                 <ImHome size="2rem" color="gray"/>
                 <Heading as='h1' size='xl' marginLeft={3} color="gray">
