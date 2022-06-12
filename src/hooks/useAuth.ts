@@ -24,6 +24,7 @@ export const useAuth = () => {
                 return createUserWithEmailAndPassword(auth, email, password).then(res => {
                     setLoading(false)
                 }).catch(err => {
+                    setError(err)
                     setLoading(false)
                 })
             }
@@ -31,6 +32,7 @@ export const useAuth = () => {
                 return signInWithEmailAndPassword(auth, email, password).then(res => {
                     setLoading(false)
                 }).catch(err => {
+                    setError(err)
                     setLoading(false)
                 })
             }
@@ -44,6 +46,7 @@ export const useAuth = () => {
         signOut(auth).then(res => {
             setLoading(false)
         }).catch(err => {
+            setError(err)
             setLoading(false)
         })
     }
@@ -61,5 +64,5 @@ export const useAuth = () => {
         };
     }, [auth]);
 
-    return {user, error, loading, signUpOrSignInWithEmail, signUserOut}
+    return {user, error, setError, loading, signUpOrSignInWithEmail, signUserOut}
 }
